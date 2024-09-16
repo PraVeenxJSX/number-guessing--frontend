@@ -9,6 +9,27 @@ const Game = () => {
   const [highScore, setHighScore] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Make the fetch request to your backend
+      const response = await fetch('https://number-guessing-backend.vercel.app/api/submit-guess', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ guess }), // sending the guess to backend
+      });
+
+      const data = await response.json();
+      setResult(data); // Handling the response from backend
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
   const handleGuess = () => {
     const userGuess = parseInt(guess);
     if (userGuess === randomNumber) {
